@@ -1,6 +1,9 @@
 package org.skypro.skyshop;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.SimpleProduct;
 
 public class App {
     public static void main(String[] args) {
@@ -9,7 +12,6 @@ public class App {
         System.out.println(" ");
 
         //Вывод корзины
-        //productBasket.printall();
         productBasket.basketPrinting();
 
         //Стоимость всей корзины
@@ -44,13 +46,13 @@ public class App {
     private static ProductBasket getProductBasket() {
         ProductBasket productBasket = new ProductBasket();
 
-        productBasket.setProduct(new Product("Хлеб", 45));
-        productBasket.setProduct(new Product("Молоко", 143));
-        productBasket.setProduct(new Product("Мороженое", 56));
-        productBasket.setProduct(new Product("Мясо", 450));
-        productBasket.setProduct(new Product("Масло", 155));
+        productBasket.setProduct(new SimpleProduct("Хлеб", 45));
+        productBasket.setProduct(new FixPriceProduct("Молоко"));
+        productBasket.setProduct(new SimpleProduct("Мороженое", 56));
+        productBasket.setProduct(new DiscountedProduct("Мясо", 450,15));
+        productBasket.setProduct(new SimpleProduct("Масло", 155));
 
-        productBasket.setProduct(new Product("Торт", 565)); //Выводится сообщение "Невозможно добавить продукт"
+        productBasket.setProduct(new SimpleProduct("Торт", 565)); //Выводится сообщение "Невозможно добавить продукт"
 
         return productBasket;
     }

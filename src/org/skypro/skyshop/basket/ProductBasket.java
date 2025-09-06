@@ -8,12 +8,6 @@ import java.util.List;
 public class ProductBasket {
     private static Product[] products = new Product[5];
 
-//    public void printall() {
-//        for (int i = 0; i < products.length; i++) {
-//            System.out.println(products[i].getProductName() + ": " + products[i].getProductPrice());
-//        }
-//    }
-
     public void setProduct(Product product) {
 
         for (int i = 0; i < products.length; i++) {
@@ -40,11 +34,19 @@ public class ProductBasket {
 
     public void basketPrinting() {
 
+        int specialCount = 0;
+
         boolean a = true;
 
         for (int i = 0; i < products.length; i++) {
-            if (products[i] != null){
-                System.out.println(products[i].getProductName() + ": " + products[i].getProductPrice());
+            if (products[i] != null) {
+
+                System.out.println(products[i].toString());
+
+                if (products[i].isSpecial()) {
+                    specialCount++;
+                }
+
                 a = false;
             }
         }
@@ -53,6 +55,8 @@ public class ProductBasket {
             System.out.println("в корзине пусто");
         } else {
             System.out.println("Итого: " + basketTotalSum());
+
+            System.out.println("Специальных товаров: " + specialCount);
         }
     }
 

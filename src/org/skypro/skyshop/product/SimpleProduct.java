@@ -22,10 +22,6 @@ public class SimpleProduct extends Product {
         return false;
     }
 
-    public String toString() {
-        return getProductName() + ": " + getProductPrice();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

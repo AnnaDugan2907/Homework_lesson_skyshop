@@ -11,6 +11,15 @@ public class DiscountedProduct extends Product {
         super(productName);
         this.productPrice = productPrice;
         this.discount = discount;
+
+        if (productPrice <= 0){
+            throw new IllegalArgumentException(new StringBuilder("Цена не может быть меньше или равна нулю").toString());
+        }
+
+        if (discount < 0 || discount > 100){
+            throw new IllegalArgumentException(
+                    new StringBuilder("Размер скидки не может быть от 0 до 100").toString());
+        }
     }
 
     private double calculatorDiscount() {

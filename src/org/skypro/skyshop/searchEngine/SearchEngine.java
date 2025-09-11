@@ -44,7 +44,6 @@ public class SearchEngine {
             if (item != null) {
                 String searchTerm = item.getSearchTerm().toLowerCase();
 
-                // Подсчёт количества вхождений
                 int occurrences = countSubstringOccurrences(searchTerm, searchLower);
                 results[count] = item;
 
@@ -63,38 +62,6 @@ public class SearchEngine {
         return bestMatch;
     }
 
-
-//    public Searchable[] search(String search) throws BestResultNotFound {
-//        Searchable[] results = new Searchable[5];
-//        int count = 0;
-//
-//        if (search == null || search.isEmpty()) {
-//            throw new BestResultNotFound(search);
-//        }
-//
-//        String searchLower = search.toLowerCase();
-//
-//        for (int i = 0; i < size; i++) {
-//            Searchable item = searchables[i];
-//            if (item != null) {
-//                String searchTerm = item.getSearchTerm().toLowerCase();
-//                int occurrences = countSubstringOccurrences(searchTerm, searchLower);
-//                if (occurrences > 0) {
-//                    results[count] = item;
-//                    count++;
-//                }
-//            }
-//        }
-//
-//        if (count == 0) {
-//            throw new BestResultNotFound(search);
-//        }
-//
-//        // Возвращаем только заполненную часть массива
-//        return Arrays.copyOf(results, count);
-//    }
-
-
     private int countSubstringOccurrences(String str, String sub) {
         int count = 0;
         int fromIndex = 0;
@@ -104,7 +71,6 @@ public class SearchEngine {
         }
         return count;
     }
-
 
     public void add(Searchable items) {
         if (size >= searchables.length) {

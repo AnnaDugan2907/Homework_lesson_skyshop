@@ -46,6 +46,7 @@ public class App {
         //Поиск товара в пустой корзине
         productBasket.containsProduct("Хлеб");
 
+
         System.out.println("\nПоиск");
 
         SearchEngine searchEngine = new SearchEngine();
@@ -63,6 +64,8 @@ public class App {
         searchEngine.add(new Article("Лучшие фильмы 2024 года", "Обзор самых ожидаемых кинопремьер."));
         searchEngine.add(new Article("Психология счастья", "Советы и научные исследования о том, как стать счастливее."));
         searchEngine.add(new Article("Обзор новых технологий в автомобилестроении", "Инновации и тренды в автопроме."));
+        searchEngine.add(new Article("Кулинарные тренды 2024", "Новые рецепты и гастрономические идеи этого года."));
+        searchEngine.add(new Article("Книги, которые стоит прочитать", "Обзор лучших новинок и классики литературы."));
 
         // Поиск
         List<String> search = new ArrayList<>();
@@ -80,7 +83,7 @@ public class App {
             String query = searches[i];
             System.out.println(" ");
 
-            Searchable[] results = searchEngine.searchs(query);
+            List<Searchable> results = searchEngine.searchs(query);
             for (Searchable result : results) {
                 if (result != null) {
                     System.out.println(result.getStringRepresentation());
@@ -89,8 +92,6 @@ public class App {
             }
 
         }
-
-
 
         System.out.println("\nИсключения");
         System.out.println(" ");
@@ -139,6 +140,33 @@ public class App {
             System.out.println(e.getMessage());
         }
 
+        System.out.println("\nУдаления продукта по имени\n");
+
+        //Удалить существующий продукт из корзины.
+        List<Product> removed = productBasket.deletingAProductByName("Молоко");
+
+        if (removed.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            for (Product p : removed) {
+                System.out.println(p);
+            }
+        }
+
+
+        System.out.println("\nСодержимое корзины после удаления:");
+        productBasket.basketPrinting();
+
+        //Удалить несуществующий продукт.
+        List<Product> removedNonexistent = productBasket.deletingAProductByName("Торт");
+        System.out.println("\nПопытка удалить несуществующий продукт 'Торт':");
+        if (removedNonexistent.isEmpty()) {
+            System.out.println("Список пуст");
+        }
+
+        System.out.println("\nОбновленное содержимое корзины:");
+        productBasket.basketPrinting();
+
     }
 
 
@@ -153,7 +181,6 @@ public class App {
         productBasket.setProduct(new DiscountedProduct("Мясо", 450, 15));
         productBasket.setProduct(new SimpleProduct("Масло", 155));
 
-        productBasket.setProduct(new SimpleProduct("Торт", 565)); //Выводится сообщение "Невозможно добавить продукт"
 
         return productBasket;
     }

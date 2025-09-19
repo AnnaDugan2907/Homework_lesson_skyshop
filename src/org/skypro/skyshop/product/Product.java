@@ -9,6 +9,10 @@ public abstract class Product implements Searchable {
 
     public Product(String productName) {
         this.productName = productName;
+
+        if(productName == null | productName.isBlank()){
+            throw new IllegalArgumentException(new StringBuilder("Название продукта не может быть пустым").toString());
+        }
     }
 
     public abstract double getProductPrice();
@@ -32,6 +36,11 @@ public abstract class Product implements Searchable {
     @Override
     public String getContentType() {
         return "PRODUCT";
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder(productName).toString();
     }
 
     @Override

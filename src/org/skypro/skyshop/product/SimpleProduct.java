@@ -9,6 +9,10 @@ public class SimpleProduct extends Product {
     public SimpleProduct(String productName, double productPrice) {
         super(productName);
         this.productPrice = productPrice;
+
+        if (productPrice <= 0){
+            throw new IllegalArgumentException(new StringBuilder("Цена не может быть меньше или равна нулю").toString());
+        }
     }
 
 

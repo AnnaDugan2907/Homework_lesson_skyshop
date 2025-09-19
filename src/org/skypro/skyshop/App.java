@@ -46,7 +46,7 @@ public class App {
         //Поиск товара в пустой корзине
         productBasket.containsProduct("Хлеб");
 
-        System.out.println("\nSearch");
+        System.out.println("\nПоиск");
 
         SearchEngine searchEngine = new SearchEngine();
 
@@ -72,19 +72,73 @@ public class App {
         search.add("Мясо");
         search.add("фильмы");
         search.add("Обзор");
+        search.add("Торт");
 
         String[] searches = search.toArray(new String[0]);
 
         for (int i = 0; i < searches.length; i++) {
             String query = searches[i];
             System.out.println(" ");
-            Searchable[] results = searchEngine.search(query);
-            for (int j = 0; j < results.length; j++) {
-                if (results[j] != null) {
-                    System.out.println(results[j].getStringRepresentation());
+
+            Searchable[] results = searchEngine.searchs(query);
+            for (Searchable result : results) {
+                if (result != null) {
+                    System.out.println(result.getStringRepresentation());
                 }
+
             }
+
         }
+
+
+
+        System.out.println("\nИсключения");
+        System.out.println(" ");
+
+        Searchable bestMatch = null;
+        try {
+            searchEngine.add(new SimpleProduct(" ", 45));//Хлеб
+            if ( bestMatch != null) {
+                System.out.println("Наиболее подходящий объект: " + bestMatch.getSearchTerm());
+            }
+            else {
+                System.out.println("Лучший результат не найден");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println(" ");
+
+
+        try {
+            searchEngine.add(new Article(" ", "Инновации и тренды в автопроме."));//Обзор новых технологий в автомобилестроении
+            if ( bestMatch != null) {
+                System.out.println("Наиболее подходящий объект: " + bestMatch.getSearchTerm());
+            }
+            else {
+                System.out.println("Лучший результат не найден");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println(" ");
+
+        try {
+            searchEngine.add(new SimpleProduct("Мороженое", -56));//56
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println(" ");
+
+        try {
+            searchEngine.add(new DiscountedProduct("Мясо", 450, 150));//15
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
 

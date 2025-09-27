@@ -1,34 +1,49 @@
 package org.skypro.skyshop.searchEngine;
 
 
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.searchable.Searchable;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class SearchEngine {
-    private static final int MAX_SIZE = 100;
-    private static Searchable[] searchables = new Searchable[MAX_SIZE];
+
+    private final List<Searchable> searchables = new LinkedList<>();
     private int size;
 
-    public Searchable[] searchs(String searchString)  {
+    public void add(Searchable item) {
 
-        Searchable[] results = new Searchable[5];
-        int count = 0;
+         searchables.add(item);
 
-        for (int i = 0; i < size; i++) {
-            Searchable item = searchables[i];
+    }
+
+
+    public List<Searchable> searchs(String searchString)  {
+
+        List<Searchable> results = new ArrayList<>();
+       // int count = 0;
+
+        if (searchString == null || searchString.isEmpty()) {
+            return results;
+        }
+
+        for (int i = 0; i < searchables.size(); i++) {
+            Searchable item = searchables.get(i);
             if (item != null && item.getSearchTerm().contains(searchString)) {
-                results[count] = item;
-                count++;
-                if (count == 5) {
-                    break;
-                }
+
+                results.add(item);
+               // results.set(count, item);
+               // count++;
+
             }
         }
         return results;
     }
 
     public Searchable search(String search) throws BestResultNotFound {
-        Searchable[] results = new Searchable[5];
-        int count = 0;
+
 
         if (search == null || search.isEmpty()) {
             throw new BestResultNotFound(search);
@@ -39,24 +54,24 @@ public class SearchEngine {
 
         String searchLower = search.toLowerCase();
 
-        for (int i = 0; i < size; i++) {
-            Searchable item = searchables[i];
+        for (int i = 0; i < searchables.size(); i++) {
+            Searchable item = searchables.get(i);
             if (item != null) {
                 String searchTerm = item.getSearchTerm().toLowerCase();
 
                 int occurrences = countSubstringOccurrences(searchTerm, searchLower);
-                results[count] = item;
+              //  results[count] = item;
 
                 if (occurrences > maxCount) {
                     maxCount = occurrences;
                     bestMatch = item;
                 }
 
-                count++;
+                //count++;
             }
         }
 
-        if (maxCount <= 0) {
+        if (maxCount <= 0 || bestMatch == null) {
             throw new BestResultNotFound(search);
         }
         return bestMatch;
@@ -72,14 +87,5 @@ public class SearchEngine {
         return count;
     }
 
-    public void add(Searchable items) {
-        if (size >= searchables.length) {
-            System.out.println("Массив полон, добавление невозможно");
-            return;
-        }
-        searchables[size] = items;
-        size++;
-
-    }
 
 }

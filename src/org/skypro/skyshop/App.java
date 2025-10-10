@@ -12,6 +12,7 @@ import org.skypro.skyshop.searchable.Searchable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -84,13 +85,14 @@ public class App {
             String query = searches[i];
             System.out.println(" ");
 
-//            List<Searchable> results = searchEngine.searchs(query);
+//            Map<String, Searchable> resultsMap = searchEngine.searchAndSort(query);
+//            for (Map.Entry<String, Searchable> entry : resultsMap.entrySet()){
+//                Searchable result = entry.getValue();
 
-            Map<String, Searchable> resultsMap = searchEngine.searchAndSort(query);
+            Set<Searchable> resultsSet = searchEngine.searchAndSort(query);
 
-//            for (Searchable result : resultsMap) {
-            for (Map.Entry<String, Searchable> entry : resultsMap.entrySet()){
-                Searchable result = entry.getValue();
+            for (Searchable result : resultsSet) {
+
                 if (result != null) {
                     System.out.println(result.getStringRepresentation());
                 }
@@ -105,10 +107,9 @@ public class App {
         Searchable bestMatch = null;
         try {
             searchEngine.add(new SimpleProduct(" ", 45));//Хлеб
-            if ( bestMatch != null) {
+            if (bestMatch != null) {
                 System.out.println("Наиболее подходящий объект: " + bestMatch.getSearchTerm());
-            }
-            else {
+            } else {
                 System.out.println("Лучший результат не найден");
             }
         } catch (IllegalArgumentException e) {
@@ -120,10 +121,9 @@ public class App {
 
         try {
             searchEngine.add(new Article(" ", "Инновации и тренды в автопроме."));//Обзор новых технологий в автомобилестроении
-            if ( bestMatch != null) {
+            if (bestMatch != null) {
                 System.out.println("Наиболее подходящий объект: " + bestMatch.getSearchTerm());
-            }
-            else {
+            } else {
                 System.out.println("Лучший результат не найден");
             }
         } catch (IllegalArgumentException e) {
@@ -174,7 +174,6 @@ public class App {
         productBasket.basketPrinting();
 
     }
-
 
 
     //Заполнение корзины

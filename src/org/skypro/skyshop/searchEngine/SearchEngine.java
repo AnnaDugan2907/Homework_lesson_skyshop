@@ -8,21 +8,48 @@ import java.util.*;
 
 public class SearchEngine {
 
-    private final List<Searchable> searchables = new LinkedList<>();
+//    private final List<Searchable> searchables = new LinkedList<>();
+
+    private final Set<Searchable> searchables = new HashSet<>();
 
     public void add(Searchable item) {
-         searchables.add(item);
+        searchables.add(item);
     }
 
-    public Map<String, Searchable> searchAndSort(String searchString) {
-        Map<String, Searchable> resultMap = new TreeMap<>();
+//    public Map<String, Searchable> searchAndSort(String searchString) {
+//        Map<String, Searchable> resultMap = new TreeMap<>();
+//
+//        for (Searchable item : searchables) {
+//            if (item != null && item.getSearchTerm().contains(searchString)) {
+//                resultMap.put(item.getName(), item);
+//            }
+//        }
+//        return resultMap;
+//    }
+
+    public Set<Searchable> searchAndSort(String searchString) {
+
+        Comparator<Searchable> comparator = new Comparator<Searchable>() {
+
+            public int compare(Searchable s1, Searchable s2) {
+
+                int lengthCompare = Integer.compare(s2.getName().length(), s1.getName().length());
+                if (lengthCompare != 0) {
+                    return lengthCompare;
+                }
+
+                return s1.getName().compareTo(s2.getName());
+            }
+        };
+
+        Set<Searchable> resultSet = new TreeSet<>(comparator);
 
         for (Searchable item : searchables) {
             if (item != null && item.getSearchTerm().contains(searchString)) {
-                resultMap.put(item.getName(), item);
+                resultSet.add(item);
             }
         }
-        return resultMap;
+        return resultSet;
     }
 
     public Searchable search(String search) throws BestResultNotFound {
@@ -36,8 +63,10 @@ public class SearchEngine {
 
         String searchLower = search.toLowerCase();
 
-        for (int i = 0; i < searchables.size(); i++) {
-            Searchable item = searchables.get(i);
+//        for (int i = 0; i < searchables.size(); i++) {
+//            Searchable item = searchables.get(i);
+
+        for (Searchable item : searchables) {
             if (item != null) {
                 String searchTerm = item.getSearchTerm().toLowerCase();
 

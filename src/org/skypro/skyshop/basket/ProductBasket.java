@@ -18,61 +18,48 @@ public class ProductBasket {
         return productsMap.remove(name);
     }
 
-    public int basketTotalSum() {
-        int basketSum = 0;
-        for (List<Product> productList : productsMap.values()) {
-            for (Product product : productList) {
-                if (product != null) {
-                    basketSum += product.getProductPrice();
-                }
-            }
-        }
-        return basketSum;
+    public double basketTotalSum() {
+        double total = productsMap.values().stream().flatMap(Collection::stream)
+                .mapToDouble(x -> x.getProductPrice())
+                .sum();
+        return total;
     }
 
     public void basketPrinting() {
-
         if (productsMap.isEmpty()) {
             System.out.println("в корзине пусто");
             return;
         }
 
-        int specialCount = 0;
+        productsMap.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product -> System.out.println(product));
 
-        for (Map.Entry<String, List<Product>> entry : productsMap.entrySet()) {
-            String productName = entry.getKey();
-            List<Product> productList = entry.getValue();
-
-            for (Product product : productList) {
-                System.out.println(product);
-                if (product.isSpecial()) {
-                    specialCount++;
-                }
-            }
-        }
+        int specialCount = getSpecialCount();
 
         System.out.println("Итого: " + basketTotalSum());
         System.out.println("Специальных товаров: " + specialCount);
     }
 
-    public boolean containsProduct(String productName) {
-        boolean b = false;
-        for (String key : productsMap.keySet()) {
-            if (key.equalsIgnoreCase(productName)) {
-                b = true;
-                break;
-            }
-        }
-        if (b == true) {
-            System.out.println("Есть ли " + productName + " в корзине? " + "да");
-        } else {
-            System.out.println("Есть ли " + productName + " в корзине? " + "нет");
-        }
-        return b;
+    private int getSpecialCount() {
+        return (int) productsMap.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
+
+
+    public boolean containsProduct(String productName) {
+        boolean exists = productsMap.keySet().stream()
+                .anyMatch(key -> key.equalsIgnoreCase(productName));
+
+        System.out.println("Есть ли " + productName + " в корзине? " + (exists ? "да" : "нет"));
+
+        return exists;
+    }
+
 
     public void clear() {
         productsMap.clear();
     }
-
 }

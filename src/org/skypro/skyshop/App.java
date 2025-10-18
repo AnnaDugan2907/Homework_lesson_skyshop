@@ -85,10 +85,6 @@ public class App {
             String query = searches[i];
             System.out.println(" ");
 
-//            Map<String, Searchable> resultsMap = searchEngine.searchAndSort(query);
-//            for (Map.Entry<String, Searchable> entry : resultsMap.entrySet()){
-//                Searchable result = entry.getValue();
-
             Set<Searchable> resultsSet = searchEngine.searchAndSort(query);
 
             for (Searchable result : resultsSet) {
